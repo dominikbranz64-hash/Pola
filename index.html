@@ -3,112 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dla Poli 💖</title>
+<title>Lockscreen dla Oliwii</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
-
-  * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    font-family: 'Playfair Display', serif;
-    background: linear-gradient(135deg, #0f0f0f, #2a2a2a);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+  }
+  .screen {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .display {
+    font-size: 24px;
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+    min-height: 40px;
+  }
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  button {
+    padding: 20px;
+    font-size: 18px;
+    border-radius: 10px;
+    border: none;
+    background: #ff6f91;
     color: #fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    text-align:center;
-    overflow:hidden;
-    touch-action: none; /* nie przybliża na telefonie */
+    cursor: pointer;
+    transition: 0.2s;
   }
-  #container {
-    max-width:90%;
-    padding:2rem;
-    border-radius:20px;
-    background: rgba(255,255,255,0.05);
-    box-shadow: 0 0 25px rgba(255,255,255,0.1);
-    animation: fadeIn 2s ease;
+  button:hover {
+    background: #ff4971;
   }
-  #message {
-    font-size:2rem;
-    line-height:1.5;
-    animation: pulse 4s infinite;
-  }
-
-  @keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-  }
-  @keyframes pulse {
-    0%,100% {transform:scale(1);}
-    50% {transform:scale(1.05);}
-  }
-
-  /* Delikatne serduszko w tle */
-  body::after {
-    content:'❤';
-    position:absolute;
-    font-size:2.5rem;
-    color:rgba(255, 100, 150, 0.08);
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%) rotate(0deg);
-    animation: heartMove 25s linear infinite;
-  }
-  @keyframes heartMove {
-    0% {transform:translate(-50%, -50%) rotate(0deg);}
-    50% {transform:translate(-50%, -55%) rotate(180deg);}
-    100% {transform:translate(-50%, -50%) rotate(360deg);}
+  .message {
+    margin-top: 20px;
+    font-size: 22px;
+    color: #ff3c78;
   }
 </style>
 </head>
 <body>
-  <div id="container">
-    <div id="message">Ładowanie...</div>
+<div class="screen">
+  <div class="display" id="display">●●●●</div>
+  <div class="buttons">
+    <button onclick="press(1)">1</button>
+    <button onclick="press(2)">2</button>
+    <button onclick="press(3)">3</button>
+    <button onclick="press(4)">4</button>
+    <button onclick="press(5)">5</button>
+    <button onclick="press(6)">6</button>
+    <button onclick="press(7)">7</button>
+    <button onclick="press(8)">8</button>
+    <button onclick="press(9)">9</button>
+    <button onclick="press('C')">C</button>
+    <button onclick="press(0)">0</button>
+    <button onclick="press('<')">←</button>
   </div>
+  <div class="message" id="message"></div>
+</div>
 
 <script>
-  const messages = [
-    "Pola, Twój uśmiech sprawia, że świat staje się jaśniejszy.",
-    "Każda myśl o Tobie sprawia, że dzień jest piękniejszy.",
-    "Twoja obecność w myślach to najpiękniejszy moment dnia.",
-    "Pola, jesteś jak promień słońca w pochmurny dzień.",
-    "Twój śmiech jest muzyką dla mojej duszy.",
-    "Każde Twoje spojrzenie jest magiczne.",
-    "Pola, masz serce pełne ciepła i uroku.",
-    "Myśl o Tobie sprawia, że wszystko jest lepsze.",
-    "Twój uśmiech to mój ulubiony widok.",
-    "Pola, jesteś jak piękna melodia, której nie da się zapomnieć.",
-    "Każda chwila, w której myślę o Tobie, jest wyjątkowa.",
-    "Twoja energia rozświetla każdy dzień.",
-    "Pola, jesteś jak poezja w świecie pełnym prozy.",
-    "Myśl o Tobie zawsze poprawia nastrój.",
-    "Twój urok jest nie do opisania słowami.",
-    "Pola, Twoja obecność sprawia, że świat jest piękniejszy.",
-    "Każdy uśmiech od Ciebie jest bezcenny.",
-    "Twoja delikatność i ciepło są niezwykłe.",
-    "Pola, jesteś jak gwiazda, która świeci najjaśniej.",
-    "Myśląc o Tobie, czuję spokój i radość.",
-    "Twój śmiech rozpromienia każdy smutny dzień.",
-    "Pola, jesteś źródłem piękna i inspiracji.",
-    "Każde słowo od Ciebie jest jak prezent dla serca.",
-    "Pola, jesteś wyjątkowa w każdym calu."
-  ];
+  let code = '';
+  const correctCode = '2008';
 
-  function getMessageIndex() {
-    const start = new Date('2025-10-26T00:00:00'); // początek cyklu
-    const now = new Date();
-    const diffHours = Math.floor((now - start) / 1000 / 60 / 60);
-    return diffHours % messages.length;
+  function press(n) {
+    const display = document.getElementById('display');
+    const message = document.getElementById('message');
+
+    if (n === 'C') {
+      code = '';
+      message.textContent = '';
+    } else if (n === '<') {
+      code = code.slice(0, -1);
+    } else {
+      if (code.length < 4) code += n;
+    }
+
+    display.textContent = '●'.repeat(code.length);
+
+    if (code.length === 4) {
+      if (code === correctCode) {
+        message.textContent = 'Słodka jesteś, Oliwia 😍';
+      } else {
+        message.textContent = 'Niepoprawny kod 😢';
+        code = '';
+        setTimeout(() => { message.textContent = ''; display.textContent = ''; }, 1000);
+      }
+    }
   }
-
-  function updateMessage() {
-    const index = getMessageIndex();
-    const msgDiv = document.getElementById('message');
-    msgDiv.textContent = messages[index];
-  }
-
-  updateMessage();
-  setInterval(updateMessage, 60 * 60 * 1000); // zmiana co godzinę
 </script>
 </body>
 </html>
