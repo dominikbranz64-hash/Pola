@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dla Poli 💖</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, #0f0f0f, #2a2a2a);
+    color: #fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+    overflow:hidden;
+    touch-action: none; /* nie przybliża na telefonie */
+  }
+  #container {
+    max-width:90%;
+    padding:2rem;
+    border-radius:20px;
+    background: rgba(255,255,255,0.05);
+    box-shadow: 0 0 25px rgba(255,255,255,0.1);
+    animation: fadeIn 2s ease;
+  }
+  #message {
+    font-size:2rem;
+    line-height:1.5;
+    animation: pulse 4s infinite;
+  }
+
+  @keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+  }
+  @keyframes pulse {
+    0%,100% {transform:scale(1);}
+    50% {transform:scale(1.05);}
+  }
+
+  /* Delikatne serduszko w tle */
+  body::after {
+    content:'❤';
+    position:absolute;
+    font-size:2.5rem;
+    color:rgba(255, 100, 150, 0.08);
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%) rotate(0deg);
+    animation: heartMove 25s linear infinite;
+  }
+  @keyframes heartMove {
+    0% {transform:translate(-50%, -50%) rotate(0deg);}
+    50% {transform:translate(-50%, -55%) rotate(180deg);}
+    100% {transform:translate(-50%, -50%) rotate(360deg);}
+  }
+</style>
+</head>
+<body>
+  <div id="container">
+    <div id="message">Ładowanie...</div>
+  </div>
+
+<script>
+  const messages = [
+    "Pola, Twój uśmiech sprawia, że świat staje się jaśniejszy.",
+    "Każda myśl o Tobie sprawia, że dzień jest piękniejszy.",
+    "Twoja obecność w myślach to najpiękniejszy moment dnia.",
+    "Pola, jesteś jak promień słońca w pochmurny dzień.",
+    "Twój śmiech jest muzyką dla mojej duszy.",
+    "Każde Twoje spojrzenie jest magiczne.",
+    "Pola, masz serce pełne ciepła i uroku.",
+    "Myśl o Tobie sprawia, że wszystko jest lepsze.",
+    "Twój uśmiech to mój ulubiony widok.",
+    "Pola, jesteś jak piękna melodia, której nie da się zapomnieć.",
+    "Każda chwila, w której myślę o Tobie, jest wyjątkowa.",
+    "Twoja energia rozświetla każdy dzień.",
+    "Pola, jesteś jak poezja w świecie pełnym prozy.",
+    "Myśl o Tobie zawsze poprawia nastrój.",
+    "Twój urok jest nie do opisania słowami.",
+    "Pola, Twoja obecność sprawia, że świat jest piękniejszy.",
+    "Każdy uśmiech od Ciebie jest bezcenny.",
+    "Twoja delikatność i ciepło są niezwykłe.",
+    "Pola, jesteś jak gwiazda, która świeci najjaśniej.",
+    "Myśląc o Tobie, czuję spokój i radość.",
+    "Twój śmiech rozpromienia każdy smutny dzień.",
+    "Pola, jesteś źródłem piękna i inspiracji.",
+    "Każde słowo od Ciebie jest jak prezent dla serca.",
+    "Pola, jesteś wyjątkowa w każdym calu."
+  ];
+
+  function getMessageIndex() {
+    const start = new Date('2025-10-26T00:00:00'); // początek cyklu
+    const now = new Date();
+    const diffHours = Math.floor((now - start) / 1000 / 60 / 60);
+    return diffHours % messages.length;
+  }
+
+  function updateMessage() {
+    const index = getMessageIndex();
+    const msgDiv = document.getElementById('message');
+    msgDiv.textContent = messages[index];
+  }
+
+  updateMessage();
+  setInterval(updateMessage, 60 * 60 * 1000); // zmiana co godzinę
+</script>
+</body>
+</html>
